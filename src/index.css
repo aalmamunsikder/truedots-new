@@ -1,0 +1,441 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+@font-face {
+  font-family: 'Brockmann';
+  src: url('/brockmann-medium-webfont.ttf') format('truetype'),
+       url('/brockmann-medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* TRUEdots Dating Theme - Light Mode */
+    --background: 320 20% 98%;
+    --foreground: 260 15% 15%;
+
+    --card: 320 30% 96%;
+    --card-foreground: 260 15% 15%;
+
+    --popover: 320 30% 96%;
+    --popover-foreground: 260 15% 15%;
+
+    --primary: 320 85% 55%;
+    --primary-foreground: 320 20% 98%;
+
+    --secondary: 320 20% 92%;
+    --secondary-foreground: 260 15% 25%;
+
+    --muted: 320 15% 88%;
+    --muted-foreground: 260 15% 45%;
+
+    --accent: 280 90% 60%;
+    --accent-foreground: 320 20% 98%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 320 20% 98%;
+
+    --border: 320 20% 85%;
+    --input: 320 20% 85%;
+    --ring: 320 85% 55%;
+
+    --radius: 0.75rem;
+
+    /* TRUEdots specific variables */
+    --love-bg: 320 30% 97%;
+    --connection-bg: 320 25% 94%;
+    --heart-glow: 320 85% 55%;
+    --romance-accent: 280 90% 60%;
+    --passion-primary: 320 85% 55%;
+    --intimacy-secondary: 300 75% 50%;
+    --trust-muted: 260 15% 60%;
+    --glow-primary: 320 85% 55%;
+    --glow-accent: 280 90% 60%;
+  }
+
+  .dark {
+    /* TRUEdots dark theme values */
+    --background: 260 15% 8%;
+    --foreground: 320 15% 95%;
+    --card: 260 20% 10%;
+    --card-foreground: 320 15% 95%;
+    --popover: 260 20% 10%;
+    --popover-foreground: 320 15% 95%;
+    --primary: 320 85% 65%;
+    --primary-foreground: 260 15% 8%;
+    --secondary: 260 20% 12%;
+    --secondary-foreground: 320 15% 85%;
+    --muted: 260 20% 14%;
+    --muted-foreground: 320 15% 65%;
+    --accent: 280 90% 70%;
+    --accent-foreground: 260 15% 8%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 320 15% 95%;
+    --border: 260 20% 18%;
+    --input: 260 20% 18%;
+    --ring: 320 85% 65%;
+
+    /* TRUEdots dark specific variables */
+    --love-bg: 260 20% 9%;
+    --connection-bg: 260 20% 11%;
+    --heart-glow: 320 85% 65%;
+    --romance-accent: 280 90% 70%;
+    --passion-primary: 320 85% 65%;
+    --intimacy-secondary: 300 75% 60%;
+    --trust-muted: 260 15% 50%;
+    --glow-primary: 320 85% 65%;
+    --glow-accent: 280 90% 70%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    background-image:
+      radial-gradient(circle at 20% 30%, hsl(var(--primary) / 0.08) 0%, transparent 60%),
+      radial-gradient(circle at 80% 70%, hsl(var(--accent) / 0.06) 0%, transparent 60%),
+      radial-gradient(circle at 50% 50%, hsl(var(--intimacy-secondary) / 0.04) 0%, transparent 80%);
+    background-size: 100% 100%;
+    background-attachment: fixed;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Enhanced custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary));
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--accent));
+  }
+}
+
+@layer components {
+  .text-mask-image {
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .love-chip {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-card border border-border text-primary backdrop-blur-sm;
+    box-shadow: 0 0 20px hsl(var(--heart-glow) / 0.2);
+  }
+  
+  .section-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12;
+  }
+
+  .section-title {
+    @apply text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tight text-foreground;
+  }
+
+  .section-subtitle {
+    @apply text-lg md:text-xl text-muted-foreground mt-4 max-w-3xl;
+  }
+
+  .glass-card {
+    @apply bg-card/80 dark:bg-card/70 backdrop-blur-sm border border-border rounded-2xl shadow-elegant transition-all duration-300 hover:shadow-elegant-hover;
+    box-shadow:
+      0 8px 32px hsl(var(--background) / 0.2),
+      0 0 0 1px hsl(var(--border)),
+      inset 0 1px 0 hsl(var(--border) / 0.2);
+  }
+
+  .glass-card:hover {
+    box-shadow:
+      0 16px 64px hsl(var(--primary) / 0.08),
+      0 0 0 1px hsl(var(--primary) / 0.2),
+      inset 0 1px 0 hsl(var(--primary) / 0.1);
+  }
+
+  .dark .glass-card:hover {
+    box-shadow:
+      0 16px 64px hsl(var(--primary) / 0.1),
+      0 0 0 1px hsl(var(--primary) / 0.3),
+      inset 0 1px 0 hsl(var(--primary) / 0.1);
+  }
+
+  .feature-card {
+    @apply p-6 rounded-2xl transition-all duration-500 hover:translate-y-[-5px];
+    background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--muted)) 100%);
+  }
+  
+  .button-primary {
+    @apply bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-3 px-6 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98];
+    box-shadow: 0 0 20px hsl(var(--heart-glow) / 0.3);
+  }
+
+  .button-primary:hover {
+    box-shadow: 0 0 30px hsl(var(--heart-glow) / 0.5);
+  }
+
+  .button-secondary {
+    @apply bg-transparent border border-border hover:border-primary text-muted-foreground hover:text-primary font-medium py-3 px-6 rounded-lg transition-all duration-300 backdrop-blur-sm;
+  }
+  
+  .nav-link {
+    @apply relative text-muted-foreground hover:text-primary py-2 transition-colors duration-300 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all hover:after:w-full font-medium;
+  }
+
+  /* TRUEdots dating specific styles */
+  .heart-glow {
+    filter: drop-shadow(0 0 10px hsl(var(--heart-glow) / 0.5));
+  }
+
+  .love-pulse {
+    animation: love-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .connection-highlight {
+    @apply font-medium text-sm;
+  }
+
+  .romance-text { color: hsl(var(--passion-primary)); }
+  .love-text { color: hsl(var(--romance-accent)); }
+  .trust-text { color: hsl(var(--trust-muted)); }
+  .connection-text { color: hsl(var(--intimacy-secondary)); }
+  .meaningful-text { color: hsl(var(--heart-glow)); }
+
+  /* Enhanced animations */
+  .perspective-1000 {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+  }
+
+  .shadow-elegant {
+    box-shadow: 0 10px 30px hsl(var(--foreground) / 0.1);
+  }
+
+  .shadow-elegant-hover {
+    box-shadow: 0 20px 40px hsl(var(--primary) / 0.1);
+  }
+
+  .dark .shadow-elegant {
+    box-shadow: 0 10px 30px hsl(var(--background) / 0.2);
+  }
+
+  .dark .shadow-elegant-hover {
+    box-shadow: 0 20px 40px hsl(var(--primary) / 0.15);
+  }
+}
+
+/* ============ MISSING ANIMATIONS ============ */
+
+/* Fade in animation - used extensively throughout */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* Card enter animation */
+@keyframes cardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-card-enter {
+  animation: cardEnter 0.4s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+/* Scale in animation */
+.image-scale-in {
+  animation: scaleIn 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Fade in with stagger - used in components */
+.fadeIn {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeIn 0.8s ease forwards;
+}
+
+/* Love pulse animation */
+@keyframes love-pulse {
+  0%, 100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 5px hsl(var(--heart-glow) / 0.3));
+  }
+  50% {
+    opacity: 0.8;
+    filter: drop-shadow(0 0 20px hsl(var(--heart-glow) / 0.6));
+  }
+}
+
+/* Stagger delays */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+
+/* Hover lift effect */
+.hover-lift {
+  transition: transform 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+}
+
+/* Enhanced parallax effect */
+.parallax {
+  transform: translateY(var(--parallax-y, 0));
+  transition: transform 0.1s ease-out;
+}
+
+/* Animated hearts background */
+.hearts-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 120px,
+      hsl(var(--border) / 0.05) 122px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 120px,
+      hsl(var(--heart-glow) / 0.03) 122px
+    );
+  pointer-events: none;
+}
+
+/* Glowing effects */
+.glow-primary {
+  box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+}
+
+.glow-accent {
+  box-shadow: 0 0 20px hsl(var(--accent) / 0.3);
+}
+
+/* ============ MOBILE OPTIMIZATIONS ============ */
+
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .button-primary, .button-secondary {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.875rem;
+    width: 100%;
+  }
+  
+  .section-container {
+    padding: 1.5rem 1rem;
+  }
+  
+  .nav-link, button, a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .section-title {
+    font-size: 1.75rem !important;
+    line-height: 1.2 !important;
+  }
+  
+  .section-subtitle {
+    font-size: 1rem !important;
+  }
+
+  /* Better form inputs on mobile */
+  input, textarea, select {
+    font-size: 16px !important;
+    padding: 0.75rem !important;
+  }
+  
+  /* Make rounded corners more subtle on mobile */
+  .rounded-3xl {
+    border-radius: 1rem !important;
+  }
+
+  /* Optimize card layouts */
+  .feature-card, .glass-card {
+    padding: 1.25rem;
+  }
+}
+
+/* Disable parallax on mobile for better performance */
+@media (max-width: 768px) {
+  .parallax {
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .section-title {
+    font-size: 2.5rem;
+  }
+  
+  .section-subtitle {
+    font-size: 1.125rem;
+  }
+}
