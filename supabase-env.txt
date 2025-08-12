@@ -1,0 +1,4 @@
+# Copy these to your .env file:
+
+VITE_SUPABASE_URL=https://abmrkunassnysbltigoq.supabase.co
+VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFibXJrdW5hc3NueXNibHRpZ29xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ5MDM0OTUsImV4cCI6MjA3MDQ3OTQ5NX0.PZiyiCGsV7wtHvgstZKrLDzzidYH0fxmvik8ogMbf48

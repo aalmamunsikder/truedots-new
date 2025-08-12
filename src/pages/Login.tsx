@@ -1,34 +1,63 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Eye, EyeOff, Heart, Mail, Lock } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { signIn, user } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
+  // Redirect if already logged in
+  useEffect(() => {
+    if (user) {
+      const from = location.state?.from?.pathname || "/dashboard";
+      navigate(from, { replace: true });
+    }
+  }, [user, navigate, location]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const result = await signIn({ email, password });
+      
+      if (result.success) {
+        toast({
+          title: "Welcome back! 💕",
+          description: "You've successfully logged into TRUEdots."
+        });
+        // Navigation will be handled by useEffect
+      } else {
+        toast({
+          title: "Login failed",
+          description: result.error || "Please check your credentials and try again.",
+          variant: "destructive"
+        });
+      }
+    } catch (error) {
       toast({
-        title: "Welcome back! 💕",
-        description: "You've successfully logged into TRUEdots."
+        title: "Login failed",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive"
       });
+    } finally {
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   const handleSocialLogin = (provider: string) => {
     toast({
       title: `${provider} Login`,
-      description: `Connecting with ${provider}...`
+      description: `${provider} authentication will be available soon!`
     });
   };
 

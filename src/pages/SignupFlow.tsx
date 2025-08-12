@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Heart } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { useAuth } from "@/contexts/AuthContext";
 
 // Import step components
 import SocialSignup from "@/components/signup/SocialSignup";
@@ -28,6 +29,7 @@ export interface SignupData {
 
 const SignupFlow = () => {
   const navigate = useNavigate();
+  const { signUp, user } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
   const [showWelcome, setShowWelcome] = useState(false);
   const [signupData, setSignupData] = useState<SignupData>({
@@ -43,6 +45,13 @@ const SignupFlow = () => {
     interests: [],
     photos: []
   });
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [user, navigate]);
 
   const updateSignupData = (data: Partial<SignupData>) => {
     setSignupData(prev => ({ ...prev, ...data }));
@@ -71,18 +80,46 @@ const SignupFlow = () => {
     setCurrentStep(3); // Move to profile details
   };
 
-  const completeSignup = () => {
-    console.log("SignupFlow - Completing signup, redirecting to dashboard...");
-    toast({
-      title: "Welcome to TRUEdots! 💕",
-      description: "Your account has been created successfully."
-    });
-    
-    // Use window.location.href directly for more reliable navigation
-    setTimeout(() => {
-      console.log("SignupFlow - Redirecting to dashboard using window.location");
-      window.location.href = "/dashboard?showLocationPopup=true";
-    }, 1500);
+  const completeSignup = async () => {
+    try {
+      // Create account with Supabase
+      const result = await signUp({
+        email: signupData.email,
+        password: signupData.password,
+        phone: signupData.phoneNumber,
+        full_name: signupData.fullName,
+        birthday: signupData.birthday,
+        gender: signupData.gender,
+        interested_in: signupData.interestedIn,
+        looking_for: signupData.lookingFor,
+        interests: signupData.interests,
+        photos: signupData.photos
+      });
+
+      if (result.success) {
+        toast({
+          title: "Welcome to TRUEdots! 💕",
+          description: "Your account has been created successfully."
+        });
+        
+        // Navigate to dashboard after successful signup
+        setTimeout(() => {
+          navigate("/dashboard?showLocationPopup=true");
+        }, 1500);
+      } else {
+        toast({
+          title: "Signup failed",
+          description: result.error || "Please try again.",
+          variant: "destructive"
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Signup failed",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
   const steps = [
