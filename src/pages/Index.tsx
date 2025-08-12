@@ -1,5 +1,7 @@
 
 import React, { useEffect } from "react";
+import { Navigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Features from "@/components/Features";
@@ -11,6 +13,28 @@ import Newsletter from "@/components/Newsletter";
 import Footer from "@/components/Footer";
 
 const Index = () => {
+  const { user, loading } = useAuth();
+
+  // If user is authenticated, redirect to dashboard
+  if (user && !loading) {
+    return <Navigate to="/dashboard/matches" replace />;
+  }
+
+  // Show loading while checking authentication
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary/20 flex items-center justify-center animate-pulse">
+            <div className="w-8 h-8 bg-primary rounded-full"></div>
+          </div>
+          <p className="text-muted-foreground">Loading...</p>
+          <p className="text-xs text-muted-foreground mt-2">Checking authentication...</p>
+        </div>
+      </div>
+    );
+  }
+
   // Initialize intersection observer to detect when elements enter viewport
   useEffect(() => {
     const observer = new IntersectionObserver(

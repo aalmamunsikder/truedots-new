@@ -93,9 +93,18 @@ const DashboardLayout = () => {
 
   const handleTabChange = (tabId: string) => {
     setActiveTab(tabId);
-    // Update URL without full navigation
-    window.history.replaceState({}, '', `/dashboard/${tabId}`);
+    // Navigate to the tab route
+    navigate(`/dashboard/${tabId}`);
   };
+
+  // Get current tab from URL
+  useEffect(() => {
+    const path = window.location.pathname;
+    const tabFromPath = path.split('/').pop();
+    if (tabFromPath && ['matches', 'chats', 'profile', 'premium'].includes(tabFromPath)) {
+      setActiveTab(tabFromPath);
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">

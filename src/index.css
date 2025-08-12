@@ -16,6 +16,64 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom map marker styles */
+.custom-user-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
+.custom-user-marker div {
+  transition: all 0.2s ease;
+}
+
+.custom-user-marker:hover div {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Map container styles */
+.leaflet-container {
+  font-family: inherit;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.leaflet-popup-content {
+  margin: 8px 12px;
+  font-size: 14px;
+}
+
+/* Smooth transitions for map interactions */
+.leaflet-marker-icon {
+  transition: all 0.2s ease;
+}
+
+.leaflet-marker-icon:hover {
+  transform: scale(1.05);
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--foreground));
+}
+
 @layer base {
   :root {
     /* TRUEdots Dating Theme - Light Mode */

@@ -1,12 +1,22 @@
 import React, { useState } from "react";
 import { 
   Heart, MapPin, Search, Star, Eye, UserPlus, Filter,
-  MoreHorizontal, Phone, Video, Send, Image, Paperclip, Smile
+  MoreHorizontal, Phone, Video, Send, Image, Paperclip, Smile,
+  Map, Grid3X3, Users
 } from "lucide-react";
+import ModernMapView from "@/components/ModernMapView";
+import { toast } from "@/components/ui/use-toast";
 
 const MatchesPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDistance, setSelectedDistance] = useState(25);
+  const [viewMode, setViewMode] = useState<'map' | 'grid'>('map'); // Default to map view
+  const [selectedFilters, setSelectedFilters] = useState({
+    ageRange: [18, 50],
+    verified: false,
+    online: false,
+    interests: [] as string[]
+  });
 
   // Mock data for demonstration
   const mockMatches = [
@@ -42,7 +52,82 @@ const MatchesPage = () => {
     }
   ];
 
-  const renderMatchesTab = () => (
+  // Handle map interactions
+  const handleUserClick = (userId: string) => {
+    console.log('User clicked:', userId);
+  };
+
+  const handleLikeUser = (userId: string) => {
+    toast({
+      title: "Like sent! 💕",
+      description: "Let's see if it's a match!"
+    });
+  };
+
+  const handleViewProfile = (userId: string) => {
+    toast({
+      title: "Viewing profile",
+      description: "Opening user profile..."
+    });
+  };
+
+  const handleStartChat = (userId: string) => {
+    toast({
+      title: "Starting chat",
+      description: "Opening chat conversation..."
+    });
+  };
+
+  const renderMapView = () => (
+    <div className="space-y-6">
+      {/* Map View Header */}
+      <div className="text-center mb-6">
+        <h2 className="text-2xl font-bold text-foreground mb-2">Discover Nearby Connections</h2>
+        <p className="text-muted-foreground">
+          Each dot represents a potential match. Click on dots to see profiles and start meaningful connections! 💫
+        </p>
+      </div>
+
+      {/* Map View */}
+      <ModernMapView
+        users={[]} // Empty array since MapView has its own mock data
+        onUserClick={handleUserClick}
+        onLikeUser={handleLikeUser}
+        onViewProfile={handleViewProfile}
+        onStartChat={handleStartChat}
+      />
+
+      {/* Map View Info */}
+      <div className="bg-muted/50 rounded-xl p-6 border border-border">
+        <h3 className="text-lg font-semibold text-foreground mb-3">How TRUEdots Works 🗺️</h3>
+        <div className="grid md:grid-cols-3 gap-4">
+          <div className="text-center">
+            <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3">
+              <MapPin className="w-6 h-6 text-primary" />
+            </div>
+            <h4 className="font-medium text-foreground mb-2">See Nearby Users</h4>
+            <p className="text-sm text-muted-foreground">Each dot on the map represents a user in your area</p>
+          </div>
+          <div className="text-center">
+            <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3">
+              <Eye className="w-6 h-6 text-primary" />
+            </div>
+            <h4 className="font-medium text-foreground mb-2">Click to Explore</h4>
+            <p className="text-sm text-muted-foreground">Tap on dots to view profiles and interests</p>
+          </div>
+          <div className="text-center">
+            <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3">
+              <Heart className="w-6 h-6 text-primary" />
+            </div>
+            <h4 className="font-medium text-foreground mb-2">Make Connections</h4>
+            <p className="text-sm text-muted-foreground">Like profiles and start meaningful conversations</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderGridView = () => (
     <div className="space-y-6">
       {/* Search and Filters */}
       <div className="flex flex-col sm:flex-row gap-4">
@@ -155,7 +240,50 @@ const MatchesPage = () => {
     </div>
   );
 
-  return renderMatchesTab();
+  return (
+    <div className="space-y-6">
+      {/* View Mode Toggle */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-foreground">Discover Matches</h1>
+          <p className="text-muted-foreground">
+            {viewMode === 'map' 
+              ? 'Explore nearby users on the interactive map' 
+              : 'Browse matches in a traditional grid view'
+            }
+          </p>
+        </div>
+        
+        <div className="flex bg-muted rounded-lg p-1">
+          <button
+            onClick={() => setViewMode('map')}
+            className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-colors ${
+              viewMode === 'map'
+                ? 'bg-background text-foreground shadow-sm'
+                : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <Map className="w-4 h-4" />
+            <span>Map View</span>
+          </button>
+          <button
+            onClick={() => setViewMode('grid')}
+            className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-colors ${
+              viewMode === 'grid'
+                ? 'bg-background text-foreground shadow-sm'
+                : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <Grid3X3 className="w-4 h-4" />
+            <span>Grid View</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Render appropriate view */}
+      {viewMode === 'map' ? renderMapView() : renderGridView()}
+    </div>
+  );
 };
 
 export default MatchesPage;
