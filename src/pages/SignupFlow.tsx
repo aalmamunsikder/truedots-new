@@ -13,7 +13,7 @@ import DatingPreferences from "@/components/signup/DatingPreferences";
 import PhotoUpload from "@/components/signup/PhotoUpload";
 
 export interface SignupData {
-  signupMethod: "facebook" | "linkedin" | "twitter" | "email" | "";
+  signupMethod: "" | "email" | "google" | "apple" | "facebook";
   email: string;
   password: string;
   phoneNumber: string;
