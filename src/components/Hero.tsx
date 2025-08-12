@@ -178,52 +178,84 @@ const Hero = () => {
               <>
               <div className="absolute inset-0 bg-card rounded-2xl sm:rounded-3xl -z-10 shadow-xl border border-primary/20"></div>
               <div className="relative transition-all duration-500 ease-out overflow-hidden rounded-2xl sm:rounded-3xl shadow-2xl">
-                <div className="bg-card p-6 text-sm border border-border/50">
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className="flex gap-2">
-                      <div className="w-3 h-3 rounded-full bg-red-500 animate-pulse"></div>
-                      <div className="w-3 h-3 rounded-full bg-yellow-500 animate-pulse"></div>
-                      <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
+                {/* Simple Couples Photos Grid */}
+                <div className="bg-card p-6 border border-border/50">
+                  {/* Header */}
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center">
+                        <Heart className="w-4 h-4 text-white fill-current" />
+                      </div>
+                      <span className="font-bold text-foreground">Happy Couples</span>
                     </div>
-                    <span className="text-muted-foreground ml-2">TRUEdots-app</span>
+                    <div className="text-xs text-muted-foreground">Featured Stories</div>
                   </div>
-                  <div className="space-y-2 text-foreground">
-                    <div className="flex">
-                      <span className="text-accent">💕</span>
-                      <span className="ml-2">Creating your perfect match profile...</span>
+
+                  {/* Simple 2x3 Grid */}
+                  <div className="grid grid-cols-2 gap-3 mb-4">
+                    <div className="aspect-square rounded-xl overflow-hidden border border-primary/20 shadow-lg hover:scale-105 transition-transform duration-300">
+                      <img 
+                        src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=200&h=200&fit=crop&crop=face" 
+                        alt="College couple"
+                        className="w-full h-full object-cover"
+                      />
                     </div>
-                    <div className="text-muted-foreground">💖 Analyzing compatibility factors...</div>
-                    <div className="text-primary">💜 Finding meaningful connections...</div>
-                    <div className="text-accent">✨ Optimizing your dating experience...</div>
-                    <div className="text-primary font-bold">💞 Ready to find your TRUE love!</div>
-                    <div className="flex">
-                      <span className="text-accent">💘</span>
-                      <span className="ml-2 animate-pulse text-primary">Start matching</span>
-                      <span className="ml-1 animate-pulse">💗</span>
+                    <div className="aspect-square rounded-xl overflow-hidden border border-accent/20 shadow-lg hover:scale-105 transition-transform duration-300">
+                      <img 
+                        src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=200&h=200&fit=crop&crop=face" 
+                        alt="Coffee date"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="aspect-square rounded-xl overflow-hidden border border-green-500/20 shadow-lg hover:scale-105 transition-transform duration-300">
+                      <img 
+                        src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=200&h=200&fit=crop&crop=face" 
+                        alt="Adventure couple"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="aspect-square rounded-xl overflow-hidden border border-purple-500/20 shadow-lg hover:scale-105 transition-transform duration-300">
+                      <img 
+                        src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=200&h=200&fit=crop&crop=face" 
+                        alt="Study partners"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Success Story */}
+                  <div className="bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl p-4 border border-primary/20">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center">
+                        <span className="text-white text-sm">💕</span>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-foreground text-sm">Success Story</h4>
+                        <p className="text-xs text-muted-foreground">"Met on TRUEdots, now engaged!"</p>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Profile preview section */}
+                {/* Bottom Stats */}
                 <div className="bg-secondary/30 p-4 border-t border-border/30">
-                  <div className="text-xs space-y-1">
-                    <div className="flex">
-                      <span className="text-muted-foreground mr-2">💕</span>
-                      <span className="text-primary">Profile:</span>
-                      <span className="text-foreground ml-1">Ready</span>
-                      <span className="text-accent ml-1">✓</span>
+                  <div className="grid grid-cols-3 gap-4 text-center">
+                    <div>
+                      <div className="text-lg font-bold text-primary">2,847</div>
+                      <div className="text-xs text-muted-foreground">Happy Couples</div>
                     </div>
-                    <div className="flex">
-                      <span className="text-muted-foreground mr-2">💖</span>
-                      <span className="text-primary">Matches:</span>
-                      <span className="text-foreground ml-1">Finding</span>
-                      <span className="text-accent ml-1">your</span>
-                      <span className="text-accent ml-1">soulmate...</span>
+                    <div>
+                      <div className="text-lg font-bold text-accent">95%</div>
+                      <div className="text-xs text-muted-foreground">Success Rate</div>
+                    </div>
+                    <div>
+                      <div className="text-lg font-bold text-primary">18 months</div>
+                      <div className="text-xs text-muted-foreground">Avg. to Love</div>
                     </div>
                   </div>
                 </div>
               </div>
-              </>
+            </>
             )}
           </div>
         </div>
