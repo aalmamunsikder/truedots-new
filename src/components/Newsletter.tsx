@@ -51,10 +51,30 @@ const Newsletter = () => {
             </span>
           </h2>
 
-          <p className="text-xl text-muted-foreground mb-10">
-            Get dating tips, success stories, and be the first to know about new features and events.
+          <p className="text-xl text-muted-foreground mb-6">
+            Ready to find your meaningful connection? Join thousands of singles who found love through TRUEdots.
             <br />
-            <span className="text-primary text-sm">💕 No spam, just meaningful connections</span>
+            <span className="text-primary text-sm">💕 Free to join, easy to use, designed for authentic relationships</span>
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
+            <a
+                              href="/signup"
+                              className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-3 rounded-md font-medium transition-colors inline-flex items-center justify-center text-lg"
+            >
+              <Heart className="w-5 h-5 mr-2 fill-current" />
+              Create Free Account
+            </a>
+            <a
+              href="/login"
+              className="button-secondary inline-flex items-center justify-center px-8 py-3 text-lg"
+            >
+              Sign In
+            </a>
+          </div>
+
+          <p className="text-sm text-muted-foreground mb-6">
+            Or subscribe to our newsletter for dating tips and success stories:
           </p>
           
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4 items-center max-w-md mx-auto">

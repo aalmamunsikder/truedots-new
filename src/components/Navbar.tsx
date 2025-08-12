@@ -1,12 +1,12 @@
 
 import React, { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
-import { Menu, X, Heart, Sun, Moon } from "lucide-react";
+import { Menu, X, Heart } from "lucide-react";
+import { ThemeToggle } from "./ThemeToggle";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,33 +16,6 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  useEffect(() => {
-    // Check for saved theme preference or default to light mode
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-      setIsDark(true);
-      document.documentElement.classList.add('dark');
-    } else {
-      setIsDark(false);
-      document.documentElement.classList.remove('dark');
-    }
-  }, []);
-
-  const toggleTheme = () => {
-    const newTheme = !isDark;
-    setIsDark(newTheme);
-
-    if (newTheme) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -111,21 +84,17 @@ const Navbar = () => {
           <a href="#pricing" className="nav-link">Pricing</a>
         </nav>
 
-        {/* Theme Toggle & CTA Button - Desktop */}
+        {/* Theme Toggle & Auth Buttons - Desktop */}
         <div className="hidden md:flex items-center space-x-4">
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-lg hover:bg-card/50 transition-colors duration-300"
-            aria-label="Toggle theme"
-          >
-            {isDark ? (
-              <Sun className="w-5 h-5 text-muted-foreground hover:text-foreground" />
-            ) : (
-              <Moon className="w-5 h-5 text-muted-foreground hover:text-foreground" />
-            )}
-          </button>
+          <ThemeToggle />
           <a
-            href="#get-started"
+            href="/login"
+            className="text-muted-foreground hover:text-foreground font-medium text-sm px-3 py-2 rounded-lg transition-colors duration-300"
+          >
+            Sign In
+          </a>
+          <a
+            href="/signup"
             className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium text-sm px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105"
           >
             Join TRUEdots
@@ -202,29 +171,21 @@ const Navbar = () => {
           </a>
 
           {/* Theme Toggle - Mobile */}
-          <button
+          <ThemeToggle />
+
+          <a
+            href="/login"
+            className="text-xl font-medium py-3 px-6 w-full text-center rounded-lg hover:bg-card/50 text-foreground transition-colors"
             onClick={() => {
-              toggleTheme();
               setIsMenuOpen(false);
               document.body.style.overflow = '';
             }}
-            className="flex items-center justify-center text-xl font-medium py-3 px-6 w-full text-center rounded-lg hover:bg-card/50 text-foreground transition-colors"
           >
-            {isDark ? (
-              <>
-                <Sun className="w-5 h-5 mr-2" />
-                Light Mode
-              </>
-            ) : (
-              <>
-                <Moon className="w-5 h-5 mr-2" />
-                Dark Mode
-              </>
-            )}
-          </button>
+            Sign In
+          </a>
 
           <a
-            href="#get-started"
+            href="/signup"
             className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium text-lg px-8 py-3 rounded-lg transition-all duration-300 mt-4"
             onClick={() => {
               setIsMenuOpen(false);

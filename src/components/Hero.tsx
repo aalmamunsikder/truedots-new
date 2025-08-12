@@ -149,15 +149,15 @@ const Hero = () => {
               style={{ animationDelay: "0.7s" }}
             >
               <a
-                href="#get-started"
-                className="button-primary group flex items-center justify-center w-full sm:w-auto text-center text-lg sm:text-xl px-8 py-4"
+                href="/signup"
+                className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-4 rounded-md font-medium transition-colors group flex items-center justify-center w-full sm:w-auto text-center text-lg sm:text-xl"
               >
                 Start Your Journey 💕
                 <ArrowRight className="ml-3 w-5 h-5 transition-transform group-hover:translate-x-1" />
               </a>
               <a
                 href="#features"
-                className="button-secondary flex items-center justify-center w-full sm:w-auto text-center text-lg sm:text-xl px-8 py-4"
+                className="bg-secondary text-secondary-foreground hover:bg-secondary/80 px-8 py-4 rounded-md font-medium transition-colors flex items-center justify-center w-full sm:w-auto text-center text-lg sm:text-xl border border-border"
               >
                 Discover Features
               </a>
