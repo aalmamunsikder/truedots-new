@@ -32,7 +32,6 @@ const AppFeatures = () => {
       {/* Background elements */}
       <div className="absolute inset-0 overflow-hidden -z-10">
         <div className="absolute top-20 left-[5%] text-primary/5 dark:text-primary/8 text-6xl animate-pulse">📱</div>
-        <div className="absolute bottom-20 right-[10%] text-accent/5 dark:text-accent/8 text-4xl animate-bounce">💕</div>
         <div className="absolute top-60 right-[70%] text-primary/3 dark:text-primary/5 text-8xl animate-pulse">💖</div>
       </div>
       
@@ -114,9 +113,6 @@ const AppFeatures = () => {
             </div>
             
             {/* Floating Elements */}
-            <div className="absolute -top-4 -right-4 w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center animate-bounce">
-              <Heart className="w-8 h-8 text-primary fill-current" />
-            </div>
             <div className="absolute -bottom-4 -left-4 w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center animate-pulse">
               <MessageCircle className="w-6 h-6 text-accent" />
             </div>
