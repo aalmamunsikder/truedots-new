@@ -192,7 +192,21 @@ const Login = () => {
                   "Sign in"
                 )}
               </button>
-            </form>
+
+            {/* Skip to Dashboard Button - For Development/Testing */}
+            <div className="mt-4 text-center">
+              <Link
+                to="/dashboard"
+                className="inline-flex items-center justify-center px-6 py-2.5 bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-lg transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98] text-sm"
+              >
+                <span className="mr-2">🚀</span>
+                Skip to Dashboard
+              </Link>
+            </div>
+            <p className="text-xs text-muted-foreground mt-2 opacity-70">
+              Quick access for development and testing
+            </p>
+          </form>
 
             {/* Sign up link */}
             <div className="text-center">
