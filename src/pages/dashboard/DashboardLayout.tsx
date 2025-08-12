@@ -13,11 +13,19 @@ import ProfilePage from "./ProfilePage";
 import PremiumPage from "./PremiumPage";
 
 const DashboardLayout = () => {
+  const { user, signOut } = useAuth();
+  const [activeTab, setActiveTab] = useState('matches');
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [showLocationPermission, setShowLocationPermission] = useState(true);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { user, profile, signOut } = useAuth();
   const [showLocationPopup, setShowLocationPopup] = useState(false);
-  const [activeTab, setActiveTab] = useState('matches');
+
+  // Ensure we have a user before rendering
+  if (!user) {
+    console.log('DashboardLayout: No user found, redirecting to login');
+    return <Navigate to="/login" replace />;
+  }
 
   useEffect(() => {
     // Check if we should show location popup (from signup completion)
@@ -44,6 +52,8 @@ const DashboardLayout = () => {
 
   const handleSignOut = async () => {
     console.log('Logout button clicked');
+    setIsLoggingOut(true);
+    
     try {
       console.log('Calling signOut...');
       await signOut();
@@ -53,14 +63,31 @@ const DashboardLayout = () => {
         description: "Come back soon! 💕"
       });
       console.log('Toast shown, navigating to home...');
-      navigate("/");
+      // Use controlled navigation instead of window.location
+      setTimeout(() => {
+        navigate("/");
+      }, 500); // Small delay to show the toast
     } catch (error) {
       console.error('Logout error:', error);
-      toast({
-        title: "Sign out failed",
-        description: "Please try again.",
-        variant: "destructive"
-      });
+      
+      // Check if it's a timeout error
+      if (error instanceof Error && error.message.includes('timeout')) {
+        toast({
+          title: "Sign out completed",
+          description: "Redirecting to homepage...",
+        });
+        // For timeout errors, still redirect after a short delay
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      } else {
+        toast({
+          title: "Sign out failed",
+          description: "Please try again.",
+          variant: "destructive"
+        });
+        setIsLoggingOut(false); // Reset loading state on error
+      }
     }
   };
 
@@ -96,10 +123,15 @@ const DashboardLayout = () => {
               </button>
               <button 
                 onClick={handleSignOut}
-                className="p-2 rounded-lg hover:bg-card transition-colors"
-                title="Sign out"
+                disabled={isLoggingOut}
+                className="p-2 rounded-lg hover:bg-card transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                title={isLoggingOut ? "Signing out..." : "Sign out"}
               >
-                <LogOut className="w-5 h-5 text-muted-foreground" />
+                {isLoggingOut ? (
+                  <div className="w-5 h-5 border-2 border-muted-foreground border-t-transparent rounded-full animate-spin"></div>
+                ) : (
+                  <LogOut className="w-5 h-5 text-muted-foreground" />
+                )}
               </button>
             </div>
           </div>

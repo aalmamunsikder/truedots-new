@@ -145,6 +145,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       setLoading(true)
       
+      // Check if there's already a session and clear it first
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        console.log('AuthContext: Existing session found, clearing before sign in');
+        await supabase.auth.signOut();
+      }
+      
       const { data: authData, error } = await supabase.auth.signInWithPassword({
         email: data.email,
         password: data.password
@@ -175,18 +182,119 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const signOut = async () => {
     try {
       console.log('AuthContext: Starting signOut...');
-      setLoading(true);
+      // Set a flag to prevent loading state changes during logout
+      setLoading(false); // Ensure loading is false before logout
       console.log('AuthContext: Calling supabase.auth.signOut()...');
-      await supabase.auth.signOut();
-      console.log('AuthContext: Supabase signOut successful, clearing state...');
+      
+      // Try to sign out with a longer timeout (10 seconds)
+      const signOutPromise = supabase.auth.signOut();
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('SignOut timeout - taking longer than expected')), 10000)
+      );
+      
+      await Promise.race([signOutPromise, timeoutPromise]);
+      console.log('AuthContext: Supabase signOut successful');
+      
+      // Immediately clear state
+      console.log('AuthContext: Immediately clearing state');
       setUser(null);
       setProfile(null);
-      console.log('AuthContext: State cleared, signOut complete');
+      setLoading(false);
+      
+      // Force clear any remaining session data
+      try {
+        await supabase.auth.refreshSession();
+        console.log('AuthContext: Forced session refresh to clear any remaining tokens');
+      } catch (refreshError) {
+        console.log('AuthContext: Session refresh failed (this is expected after logout)');
+      }
+      
+      // Comprehensive session clearing
+      console.log('AuthContext: Clearing all browser storage');
+      try {
+        // Clear localStorage
+        localStorage.removeItem('supabase.auth.token');
+        localStorage.removeItem('supabase.auth.refreshToken');
+        
+        // Clear sessionStorage
+        sessionStorage.removeItem('supabase.auth.token');
+        sessionStorage.removeItem('supabase.auth.refreshToken');
+        
+        // Clear any other potential storage keys
+        Object.keys(localStorage).forEach(key => {
+          if (key.includes('supabase') || key.includes('auth')) {
+            localStorage.removeItem(key);
+            console.log('AuthContext: Removed localStorage key:', key);
+          }
+        });
+        
+        Object.keys(sessionStorage).forEach(key => {
+          if (key.includes('supabase') || key.includes('auth')) {
+            sessionStorage.removeItem(key);
+            console.log('AuthContext: Removed sessionStorage key:', key);
+          }
+        });
+        
+        console.log('AuthContext: All browser storage cleared');
+      } catch (storageError) {
+        console.error('AuthContext: Error clearing storage:', storageError);
+      }
+      
+      // Clear Supabase internal state
+      console.log('AuthContext: Clearing Supabase internal state...');
+      try {
+        // Force clear any remaining Supabase session
+        await supabase.auth.setSession(null);
+        console.log('AuthContext: Supabase session cleared');
+      } catch (sessionError) {
+        console.log('AuthContext: Error clearing Supabase session (expected):', sessionError);
+      }
+      
     } catch (error) {
       console.error('AuthContext: Sign out error:', error);
-      throw error; // Re-throw to let the calling function handle it
-    } finally {
+      
+      // If it's a timeout, that's okay - we can still clear the state
+      if (error instanceof Error && error.message.includes('timeout')) {
+        console.log('AuthContext: SignOut timed out, but this is normal. Clearing state anyway.');
+      }
+      
+      // Even if there's an error, clear the state
+      console.log('AuthContext: Error occurred, but clearing state anyway');
+      setUser(null);
+      setProfile(null);
       setLoading(false);
+      
+      // Force clear any remaining session data even on error
+      try {
+        await supabase.auth.refreshSession();
+        console.log('AuthContext: Forced session refresh to clear any remaining tokens');
+      } catch (refreshError) {
+        console.log('AuthContext: Session refresh failed (this is expected after logout)');
+      }
+      
+      // Clear storage even on error
+      try {
+        localStorage.removeItem('supabase.auth.token');
+        localStorage.removeItem('supabase.auth.refreshToken');
+        sessionStorage.removeItem('supabase.auth.token');
+        sessionStorage.removeItem('supabase.auth.refreshToken');
+        console.log('AuthContext: Storage cleared after error');
+      } catch (storageError) {
+        console.error('AuthContext: Error clearing storage after error:', storageError);
+      }
+      
+      // Clear Supabase session even on error
+      try {
+        await supabase.auth.setSession(null);
+        console.log('AuthContext: Supabase session cleared after error');
+      } catch (sessionError) {
+        console.log('AuthContext: Error clearing Supabase session after error (expected):', sessionError);
+      }
+      
+      // Don't throw timeout errors - they're not critical
+      if (!(error instanceof Error && error.message.includes('timeout'))) {
+        throw error;
+      }
     }
   }
 
@@ -235,7 +343,37 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       async (event, session) => {
         if (!mounted) return;
         
-        console.log('AuthContext: Auth state change event:', event);
+        console.log('AuthContext: Auth state change event:', event, 'session:', session);
+        
+        // Handle signOut event immediately without setting loading
+        if (event === 'SIGNED_OUT') {
+          console.log('AuthContext: User signed out, clearing state immediately');
+          setUser(null);
+          setProfile(null);
+          setLoading(false);
+          
+          // Force clear any remaining session data
+          try {
+            await supabase.auth.refreshSession();
+            console.log('AuthContext: Forced session refresh after SIGNED_OUT event');
+          } catch (refreshError) {
+            console.log('AuthContext: Session refresh failed after SIGNED_OUT (expected)');
+          }
+          return;
+        }
+        
+        // Handle token refresh and other events
+        if (event === 'TOKEN_REFRESHED') {
+          console.log('AuthContext: Token refreshed, updating user');
+          setUser(session?.user ?? null);
+          setLoading(false);
+          return;
+        }
+        
+        // For SIGNED_IN events, set loading to true while fetching profile
+        if (event === 'SIGNED_IN') {
+          setLoading(true);
+        }
         
         try {
           setUser(session?.user ?? null);
@@ -268,11 +406,33 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       try {
         const { data: { session } } = await supabase.auth.getSession();
         if (mounted && session?.user) {
-          console.log('AuthContext: Initial session found, setting user');
-          setUser(session.user);
-          const profileData = await fetchProfile(session.user.id);
-          if (mounted) {
-            setProfile(profileData);
+          console.log('AuthContext: Initial session found, validating...');
+          
+          // Validate the session by checking if the user still exists
+          try {
+            const { data: userData, error: userError } = await supabase.auth.getUser();
+            if (userError || !userData.user) {
+              console.log('AuthContext: Session validation failed, clearing invalid session');
+              await supabase.auth.signOut();
+              setUser(null);
+              setProfile(null);
+              setLoading(false);
+              return;
+            }
+            
+            console.log('AuthContext: Session validated, setting user');
+            setUser(session.user);
+            const profileData = await fetchProfile(session.user.id);
+            if (mounted) {
+              setProfile(profileData);
+            }
+          } catch (validationError) {
+            console.log('AuthContext: Session validation error, clearing session:', validationError);
+            await supabase.auth.signOut();
+            setUser(null);
+            setProfile(null);
+            setLoading(false);
+            return;
           }
         }
       } catch (error) {
