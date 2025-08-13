@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
-import { SignupData } from "@/pages/SignupFlow";
+import { SignupData } from "@/pages/auth/SignupFlow";
 
 interface SocialSignupProps {
   signupData: SignupData;

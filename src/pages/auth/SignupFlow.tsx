@@ -2,16 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Heart } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { useAuth } from "@/contexts/AuthContext";
 
 // Import step components
-import SocialSignup from "@/components/signup/SocialSignup";
-import PhoneVerification from "@/components/signup/PhoneVerification";
-import WelcomePopup from "@/components/signup/WelcomePopup";
-import ProfileDetails from "@/components/signup/ProfileDetails";
-import DatingPreferences from "@/components/signup/DatingPreferences";
-import PhotoUpload from "@/components/signup/PhotoUpload";
+import SocialSignup from "@/components/auth/signup/SocialSignup";
+import PhoneVerification from "@/components/auth/signup/PhoneVerification";
+import WelcomePopup from "@/components/auth/signup/WelcomePopup";
+import ProfileDetails from "@/components/auth/signup/ProfileDetails";
+import DatingPreferences from "@/components/auth/signup/DatingPreferences";
+import PhotoUpload from "@/components/auth/signup/PhotoUpload";
 
 export interface SignupData {
   signupMethod: "" | "email" | "google" | "apple" | "facebook";

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Phone, ArrowLeft } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
-import { SignupData } from "@/pages/SignupFlow";
+import { SignupData } from "@/pages/auth/SignupFlow";
 
 interface PhoneVerificationProps {
   signupData: SignupData;

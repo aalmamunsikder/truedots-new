@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Eye, EyeOff, Heart, Mail, Lock } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { useAuth } from "@/contexts/AuthContext";
 
 const Login = () => {

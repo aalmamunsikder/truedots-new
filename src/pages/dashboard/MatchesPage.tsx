@@ -4,7 +4,7 @@ import {
   MoreHorizontal, Phone, Video, Send, Image, Paperclip, Smile,
   Map, Grid3X3, Users
 } from "lucide-react";
-import ModernMapView from "@/components/ModernMapView";
+import ModernMapView from "@/components/features/ModernMapView";
 import { toast } from "@/components/ui/use-toast";
 
 const MatchesPage = () => {

@@ -2,15 +2,15 @@
 import React, { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import Features from "@/components/Features";
-import HowItWorks from "@/components/HowItWorks";
-import AppFeatures from "@/components/AppFeatures";
-import Testimonials from "@/components/Testimonials";
-import Pricing from "@/components/Pricing";
-import Newsletter from "@/components/Newsletter";
-import Footer from "@/components/Footer";
+import Navbar from "@/components/layout/Navbar";
+import Hero from "@/components/pages/Hero";
+import Features from "@/components/pages/Features";
+import HowItWorks from "@/components/pages/HowItWorks";
+import AppFeatures from "@/components/pages/AppFeatures";
+import Testimonials from "@/components/pages/Testimonials";
+import Pricing from "@/components/pages/Pricing";
+import Newsletter from "@/components/pages/Newsletter";
+import Footer from "@/components/layout/Footer";
 
 const Index = () => {
   const { user, loading } = useAuth();

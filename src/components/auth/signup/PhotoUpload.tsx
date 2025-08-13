@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { Camera, Upload, ArrowLeft, ArrowRight, X, RotateCcw, Check } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
-import { SignupData } from "@/pages/SignupFlow";
+import { SignupData } from "@/pages/auth/SignupFlow";
 
 interface PhotoUploadProps {
   signupData: SignupData;

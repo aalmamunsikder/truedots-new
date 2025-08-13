@@ -3,10 +3,10 @@ import { Link, useSearchParams, useNavigate, Routes, Route, Navigate } from "rea
 import { 
   Heart, Settings, Bell, LogOut, Users, MessageCircle, Crown
 } from "lucide-react";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "@/components/ui/use-toast";
-import LocationPermissionPopup from "@/components/LocationPermissionPopup";
+import LocationPermissionPopup from "@/components/features/LocationPermissionPopup";
 import MatchesPage from "./MatchesPage";
 import ChatsPage from "./ChatsPage";
 import ProfilePage from "./ProfilePage";
